@@ -1,0 +1,185 @@
+<section class="new-task-page">
+
+  <a class="back-link" (click)="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+    Back to Tasks
+  </a>
+
+  <h1 class="page-title">Create New Task</h1>
+  <p class="page-subtitle">Fill in the details below to create a new task.</p>
+
+  <div class="form-card">
+
+    @if (successMsg) {
+    <div class="alert alert--success">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+      {{ successMsg }}
+    </div>
+    }
+    @if (errorMsg) {
+    <div class="alert alert--error">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      {{ errorMsg }}
+    </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="field">
+        <label class="field-label">Task Title <span class="required">*</span></label>
+        <input class="field-input" [class.field-input--error]="isInvalid('title')" type="text"
+          placeholder="Enter task title..." formControlName="title" />
+        @if (isInvalid('title')) {
+        <span class="field-error">Task title is required</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field-label">Description</label>
+        <textarea class="field-input field-textarea" placeholder="Describe the task in detail..."
+          formControlName="description" rows="4">
+        </textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" />
+              <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+            </svg>
+            Project <span class="required">*</span>
+          </label>
+          <div class="select-wrapper" [class.select-wrapper--error]="isInvalid('projectId')">
+            <select class="field-select" formControlName="projectId">
+              <option value="">Select project</option>
+              @for (p of projects; track p.projectId) {
+              <option [value]="p.projectId">{{ p.name }}</option>
+              }
+            </select>
+            <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          @if (isInvalid('projectId')) {
+          <span class="field-error">Project is required</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Assignee <span class="required">*</span>
+          </label>
+          <div class="select-wrapper" [class.select-wrapper--error]="isInvalid('assigneeId')">
+            <select class="field-select" formControlName="assigneeId">
+              <option value="">Select assignee</option>
+              @for (dev of developers; track dev.developerId) {
+              <option [value]="dev.developerId">{{ dev.fullName }}</option>
+              }
+            </select>
+            <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          @if (isInvalid('assigneeId')) {
+          <span class="field-error">Assignee is required</span>
+          }
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">Priority</label>
+          <div class="select-wrapper">
+            <span class="priority-dot" [ngClass]="'dot--' + form.get('priority')?.value?.toLowerCase()"></span>
+            <select class="field-select field-select--padded" formControlName="priority">
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+            <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Status</label>
+          <div class="select-wrapper">
+            <select class="field-select" formControlName="status">
+              <option value="ToDo">To Do</option>
+              <option value="InProgress">In Progress</option>
+              <option value="Blocked">Blocked</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Estimated Complexity <span class="required">*</span></label>
+        <div class="complexity-picker">
+          @for (n of [1,2,3,4,5]; track n) {
+          <button type="button" class="complexity-btn" [class.active]="form.get('estimatedComplexity')?.value === n"
+            (click)="setComplexity(n)">
+            {{ n }}
+          </button>
+          }
+          <span class="complexity-label">{{ complexityLabel }}</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Due Date <span class="required">*</span></label>
+        <div class="date-wrapper" [class.date-wrapper--error]="isInvalid('dueDate')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          <input class="field-input field-input--date" type="date" [min]="todayStr" formControlName="dueDate" />
+        </div>
+        @if (isInvalid('dueDate')) {
+        <span class="field-error">Due date is required</span>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn--cancel" (click)="goBack()">Cancel</button>
+        <button type="submit" class="btn btn--submit" [disabled]="loading">
+          @if (loading) {
+          <span class="spinner"></span> Creating...
+          } @else {
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+          Create Task
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</section>

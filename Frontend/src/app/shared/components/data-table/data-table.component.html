@@ -1,0 +1,66 @@
+<section class="table-container">
+  @if (title || subtitle) {
+  <div class="table-header">
+    <h3 class="table-title">{{ title }}</h3>
+    <span class="table-subtitle">{{ subtitle }}</span>
+  </div>
+  }
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          @for (col of columns; track col.key) {
+          <th [class.sortable]="col.sortable" (click)="onSort(col)">
+            {{ col.label }}
+            @if (col.sortable) {
+            <span class="sort-icon">
+              {{ sortColumn === col.key ? (sortDirection === 'asc' ? '↑' : '↓') : '↕' }}
+            </span>
+            }
+          </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of pagedData; track row) {
+        <tr [class.highlighted]="isHighlighted(row)" (click)="onRowClick(row)">
+          @for (col of columns; track col.key) {
+          <td>
+            @if (cellTemplates[col.key]) {
+            <ng-container [ngTemplateOutlet]="cellTemplates[col.key]"
+              [ngTemplateOutletContext]="{ $implicit: row, value: row[col.key] }">
+            </ng-container>
+            } @else {
+            {{ formatCell(row[col.key], col) }}
+            }
+          </td>
+          }
+        </tr>
+        } @empty {
+        <tr>
+          <td [attr.colspan]="columns.length" class="empty-state">No data available</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (totalPages > 1) {
+  <div class="pagination">
+    <span class="pagination__info">
+      Showing {{ (currentPage - 1) * pageSize + 1 }}–{{ min(currentPage * pageSize, sortedData.length) }} of {{
+      sortedData.length }}
+    </span>
+    <div class="pagination__controls">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>
+      @for (p of pages; track p) {
+      <button (click)="goToPage(p)" [class.active]="p === currentPage">{{ p }}</button>
+      }
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">›</button>
+    </div>
+  </div>
+  }
+</section>
+
+<ng-content></ng-content>

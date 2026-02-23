@@ -1,0 +1,168 @@
+<section class="project-tasks">
+
+  @if (project) {
+  <div class="project-header">
+    <div class="project-header__left">
+      <div class="project-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <path d="M3 9h18M9 21V9" />
+        </svg>
+      </div>
+      <div>
+        <h2 class="project-name">{{ project.name }}</h2>
+        <span class="project-client">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+          </svg>
+          {{ project.clientName }}
+        </span>
+      </div>
+    </div>
+    <div class="project-stats">
+      <div class="project-stat">
+        <span class="project-stat__value">{{ project.totalTasks }}</span>
+        <span class="project-stat__label">Total Tasks</span>
+      </div>
+      <div class="project-stat project-stat--green">
+        <span class="project-stat__value">{{ project.completedTasks }}</span>
+        <span class="project-stat__label">Completed</span>
+      </div>
+      <div class="project-stat project-stat--blue">
+        <span class="project-stat__value">{{ project.openTasks }}</span>
+        <span class="project-stat__label">In Progress</span>
+      </div>
+    </div>
+  </div>
+  }
+
+  <app-task-status-chart [tasks]="allTasks" />
+
+  <div class="filters-bar">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input type="text" placeholder="Search tasks..." [(ngModel)]="searchQuery" (input)="applyFilters()" />
+    </div>
+
+    <div class="filter-group">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+      </svg>
+      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="">All Status</option>
+        <option value="ToDo">To Do</option>
+        <option value="InProgress">In Progress</option>
+        <option value="Blocked">Blocked</option>
+        <option value="Completed">Completed</option>
+      </select>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+
+    <div class="filter-group">
+      <select [(ngModel)]="developerFilter" (change)="applyFilters()">
+        <option value="">All Developers</option>
+        @for (devName of developers; track devName) {
+        <option [value]="devName">{{ devName }}</option>
+        }
+      </select>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  </div>
+
+  <app-data-table [columns]="taskColumns" [data]="filteredTasks" [pageSize]="10" (rowClick)="openDetail($event)">
+
+    <ng-template appCellDef="title" let-task>
+      <span class="task-title">{{ task.title }}</span>
+    </ng-template>
+
+    <ng-template appCellDef="assigneeName" let-task>
+      <div class="assignee">
+        <span class="avatar" [style.background]="getAvatarColor(task.assigneeName)">
+          {{ getInitials(task.assigneeName) }}
+        </span>
+        {{ task.assigneeName }}
+      </div>
+    </ng-template>
+
+    <ng-template appCellDef="status" let-task>
+      <span class="badge badge--status" [ngClass]="'badge--' + task.status.toLowerCase()">
+        <span class="badge-dot"></span>{{ task.status }}
+      </span>
+    </ng-template>
+
+    <ng-template appCellDef="priority" let-task>
+      <span class="badge badge--priority" [ngClass]="'priority--' + task.priority.toLowerCase()">
+        {{ task.priority }}
+      </span>
+    </ng-template>
+
+    <ng-template appCellDef="estimatedComplexity" let-task>
+      <div class="complexity">
+        @for (i of [1,2,3,4,5]; track i) {
+        <span class="complexity-dot" [class.active]="i <= task.estimatedComplexity"></span>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template appCellDef="dueDate" let-task>
+      <span class="due-date" [class.overdue]="isOverdue(task.dueDate)">
+        {{ task.dueDate | date:'MMM d, yyyy' }}
+      </span>
+    </ng-template>
+
+  </app-data-table>
+
+</section>
+
+@if (selectedTask) {
+<div class="modal-backdrop" (click)="closeDetail()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ selectedTask.title }}</h3>
+      <button class="modal-close" (click)="closeDetail()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-description">{{ selectedTask.description || 'No description provided.' }}</p>
+      <div class="modal-meta">
+        <div class="meta-item">
+          <span class="meta-label">Assignee</span>
+          <span class="meta-value">{{ selectedTask.assigneeName }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="badge badge--status" [ngClass]="'badge--' + selectedTask.status.toLowerCase()">
+            <span class="badge-dot"></span>{{ selectedTask.status }}
+          </span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Priority</span>
+          <span class="badge badge--priority" [ngClass]="'priority--' + selectedTask.priority.toLowerCase()">{{
+            selectedTask.priority }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Due Date</span>
+          <span class="meta-value">{{ selectedTask.dueDate | date:'MMM d, yyyy' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Complexity</span>
+          <span class="meta-value">{{ selectedTask.estimatedComplexity }} / 5</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Created</span>
+          <span class="meta-value">{{ selectedTask.createdAt | date:'MMM d, yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,23 @@
+<div class="chart-card">
+    <h3 class="chart-title">Tasks by Status</h3>
+
+    <div class="chart-body">
+        <div class="chart-wrapper">
+            <canvas #chartCanvas></canvas>
+            <div class="chart-center">
+                <span class="chart-total">{{ tasks.length }}</span>
+                <span class="chart-total-label">Total</span>
+            </div>
+        </div>
+
+        <div class="chart-legend">
+            @for (item of statusSummary; track item.label) {
+            <div class="legend-item">
+                <span class="legend-dot" [style.background]="item.border"></span>
+                <span class="legend-label">{{ item.label }}</span>
+                <span class="legend-count">{{ item.count }}</span>
+            </div>
+            }
+        </div>
+    </div>
+</div>

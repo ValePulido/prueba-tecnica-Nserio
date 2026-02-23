@@ -1,0 +1,82 @@
+<section class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">Dashboard Overview</h1>
+      <p class="dashboard-subtitle">Enterprise Ready Dashboard</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--blue">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4" />
+          <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalTasks }}</span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+      <span class="stat-badge stat-badge--green">+12%</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--yellow">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ inProgressTasks }}</span>
+        <span class="stat-label">Open Tasks</span>
+      </div>
+      <span class="stat-badge stat-badge--green">+5%</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ atRiskTasks }}</span>
+        <span class="stat-label">High Risk</span>
+      </div>
+      <span class="stat-badge stat-badge--red">-3%</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--teal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 00-3-3.87" />
+          <path d="M16 3.13a4 4 0 010 7.75" />
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalDevelopers }}</span>
+        <span class="stat-label">Team Members</span>
+      </div>
+      <span class="stat-badge stat-badge--green">+2</span>
+    </div>
+  </div>
+
+  <app-data-table title="Developer Workload" [subtitle]="workload.length + ' developers'" [columns]="workloadColumns"
+    [data]="workload" [highlightCondition]="highlightWorkload">
+  </app-data-table>
+
+  <app-data-table title="Project Health" [subtitle]="projectHealth.length + ' active projects'"
+    [columns]="projectColumns" [data]="projectHealth" [highlightCondition]="highlightProject"
+    (rowClick)="onProjectClick($event)">
+  </app-data-table>
+
+  <app-data-table title="Developer Delay Risk" [subtitle]="atRiskCount + ' at-risk tasks'" [columns]="riskColumns"
+    [data]="delayRisk" [highlightCondition]="highlightRisk">
+  </app-data-table>
+</section>

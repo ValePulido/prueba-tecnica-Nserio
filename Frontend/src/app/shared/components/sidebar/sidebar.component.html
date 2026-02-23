@@ -1,0 +1,58 @@
+<button class="mobile-toggle" (click)="toggleMobile()" [attr.aria-label]="isMobileOpen ? 'Cerrar menú' : 'Abrir menú'">
+  @if (isMobileOpen) {
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+  } @else {
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="18" x2="21" y2="18" />
+  </svg>
+  }
+</button>
+
+<div class="sidebar-overlay" [class.visible]="isMobileOpen" (click)="toggleMobile()"></div>
+
+<aside class="sidebar" [class.collapsed]="isCollapsed" [class.open]="isMobileOpen">
+
+  <div class="sidebar__brand">
+    <div class="brand-logo">T</div>
+    @if (!isCollapsed) {
+    <span class="brand-name">TeamTasks</span>
+    }
+    <button class="collapse-btn" (click)="toggleCollapse()" [title]="isCollapsed ? 'Expand' : 'Collapse'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        @if (isCollapsed) {
+        <polyline points="9 18 15 12 9 6" />
+        } @else {
+        <polyline points="15 18 9 12 15 6" />
+        }
+      </svg>
+    </button>
+  </div>
+
+  <nav class="sidebar__nav">
+    @for (item of navItems; track item.route) {
+    <a class="nav-item" [routerLink]="item.route" routerLinkActive="nav-item--active" (click)="isMobileOpen = false"
+      [title]="isCollapsed ? item.label : ''">
+      <span class="nav-icon" [innerHTML]="item.icon"></span>
+      @if (!isCollapsed) {
+      <span class="nav-label">{{ item.label }}</span>
+      }
+    </a>
+    }
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="user-avatar">JD</div>
+    @if (!isCollapsed) {
+    <div class="user-info">
+      <span class="user-name">John Doe</span>
+      <span class="user-role">Admin</span>
+    </div>
+    }
+  </div>
+
+</aside>

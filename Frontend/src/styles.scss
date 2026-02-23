@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8f9fb;
+  color: #1a1a2e;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hide-mobile {
+  @media (max-width: 768px) { display: none !important; }
+}
+
+.hide-desktop {
+  @media (min-width: 769px) { display: none !important; }
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: inherit;
+  color: #9ca3af;
+  opacity: 1;
+}
+
+body.dark-mode {
+  background: #111827;
+  color: #f1f5f9;
+
+  app-topbar .topbar {
+    background: #1e2433;
+    border-bottom-color: #2d3748;
+
+    .topbar__title h2  { color: #f1f5f9; }
+    .topbar__title span { color: #64748b; }
+
+    .search-box {
+      background: #2d3748;
+      border-color: #3d4a5c;
+      color: #94a3b8;
+      input { color: #f1f5f9; &::placeholder { color: #64748b; } }
+      &:focus-within { background: #374151; border-color: #3b82f6; }
+    }
+
+    .icon-btn {
+      background: #2d3748;
+      border-color: #3d4a5c;
+      color: #94a3b8;
+      &:hover { background: #374151; }
+      .badge-dot { border-color: #1e2433; }
+    }
+
+    .theme-toggle { color: #64748b; }
+  }
+
+  app-sidebar .sidebar {
+    background: #1e2433;
+    border-right-color: #2d3748;
+
+    .brand-name          { color: #f1f5f9; }
+    .sidebar__brand      { border-bottom-color: #2d3748; }
+    .sidebar__footer     { border-top-color: #2d3748; }
+    .user-name           { color: #f1f5f9; }
+    .user-role           { color: #64748b; }
+
+    .collapse-btn {
+      background: #2d3748;
+      border-color: #3d4a5c;
+      color: #94a3b8;
+    }
+
+    .nav-item {
+      color: #94a3b8;
+      &:hover, &--active {
+        background: #2d3748;
+        color: #60a5fa;
+        .nav-icon { color: #60a5fa; }
+      }
+    }
+  }
+
+  .app-content,
+  .dashboard,
+  .project-tasks,
+  .new-task-page { background: #111827; }
+
+  .stat-card,
+  .table-container,
+  .table-card,
+  .project-header,
+  .form-card {
+    background: #1e2433;
+    border-color: #2d3748;
+  }
+
+  .stat-value,
+  .dashboard-title,
+  .page-title,
+  .table-title,
+  .project-name { color: #f1f5f9; }
+
+  .stat-label,
+  .dashboard-subtitle,
+  .table-subtitle,
+  .project-client { color: #64748b; }
+
+  thead { background: #252f42; }
+
+  th {
+    color: #64748b;
+    border-bottom-color: #2d3748;
+  }
+
+  td {
+    color: #f1f5f9;
+    border-bottom-color: #252f42;
+  }
+
+  tbody tr:hover    { background: #252f42 !important; }
+
+  .highlighted {
+    background: #2d1f1f !important;
+    &:hover { background: #3d2828 !important; }
+  }
+
+  .search-box,
+  .filter-group {
+    background: #1e2433;
+    border-color: #2d3748;
+    color: #94a3b8;
+    select, input { color: #f1f5f9; background: transparent; }
+  }
+
+  .pagination {
+    border-top-color: #2d3748;
+    &__info { color: #64748b; }
+    &__controls button {
+      background: #1e2433;
+      border-color: #2d3748;
+      color: #f1f5f9;
+      &:hover:not(:disabled) { background: #2d3748; border-color: #3b82f6; color: #60a5fa; }
+      &.active               { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+    }
+  }
+
+  .field-input,
+  .field-select,
+  .field-textarea {
+    background: #252f42;
+    border-color: #2d3748;
+    color: #f1f5f9;
+    &::placeholder { color: #64748b; }
+    &:focus { border-color: #3b82f6; background: #2d3748; }
+  }
+
+  .field-label { color: #cbd5e1; }
+
+  .btn--cancel {
+    background: #252f42;
+    border-color: #2d3748;
+    color: #f1f5f9;
+    &:hover { background: #2d3748; }
+  }
+
+  .modal              { background: #1e2433; }
+  .modal-header       { border-bottom-color: #2d3748; h3 { color: #f1f5f9; } }
+  .modal-description  { color: #94a3b8; }
+  .meta-value         { color: #f1f5f9; }
+  .meta-label         { color: #64748b; }
+  .modal-close        { color: #94a3b8; &:hover { background: #252f42; } }
+
+  .complexity-btn {
+    background: #252f42;
+    border-color: #2d3748;
+    color: #94a3b8;
+    &.active { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+  }
+}
