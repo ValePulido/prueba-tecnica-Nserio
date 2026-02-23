@@ -1,0 +1,12 @@
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\bin\Debug\net8.0\Domain.dll
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\bin\Debug\net8.0\Domain.pdb
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.dll
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\Domain.pdb
+D:\Extras\prueba-tecnica-Nserio\API backend (.NET)\Domain\obj\Debug\net8.0\ref\Domain.dll

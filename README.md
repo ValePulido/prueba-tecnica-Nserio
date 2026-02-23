@@ -216,7 +216,6 @@ Si cambias el puerto de la API, actualiza este valor.
 ### 2. Instalar dependencias
 
 ```bash
-cd frontend
 npm install
 ```
 
